@@ -95,4 +95,4 @@ Para sincronizar tus tablas con el ORM usa el siguiente script:
 python correction_tables.py
 ```
 
-Luego vete a la documentación del frontend [text](https://github.com/CarEsteban/lab3-steamlit/tree/main/frontend) para saber como iniciar el frontend
+Luego vete a la documentación del frontend [FRONTEND DOCUMENTATION](https://github.com/CarEsteban/lab3-steamlit/tree/main/frontend) para saber como iniciar el frontend

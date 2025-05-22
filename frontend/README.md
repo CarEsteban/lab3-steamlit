@@ -26,7 +26,7 @@ plataforma_cursos/
 
 ## 0. Iniciar el backend
 
-Primero tuviste que seguir la documentación del backend [text](https://github.com/CarEsteban/lab3-steamlit/tree/main/backend)
+Primero tuviste que seguir la documentación del backend [BACKEND DOCUMENTATION](https://github.com/CarEsteban/lab3-steamlit/tree/main/backend)
 
 ## 1. Ejecutar la aplicación Streamlit
 
