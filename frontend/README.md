@@ -33,9 +33,9 @@ Primero tuviste que seguir la documentación del backend [BACKEND DOCUMENTATION]
 Activa el entorno virtual, instala dependencias y lanza la aplicación:
 
 ```bash
-# Bash: Inicio
+
 cd frontend
 source venv/bin/activate   # En Windows: venv\\Scripts\\activate
 pip install -r requirements.txt
 streamlit run app.py
-# Bash: Fin
+```
