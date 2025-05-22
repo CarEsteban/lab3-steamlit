@@ -1,36 +1,47 @@
+
 import sys, os
-# 1) Inserta el path al backend
+
+# 1) Asegúrate de que Python puede encontrar el backend
 BACKEND_PATH = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "backend"))
 if BACKEND_PATH not in sys.path:
     sys.path.insert(0, BACKEND_PATH)
 
-# 2) Carga variables de entorno (dotenv)
+# 2) Carga variables de entorno desde el .env del backend
 from dotenv import load_dotenv
-load_dotenv(os.path.join(os.path.dirname(__file__), "..", "backend", ".env"))
+load_dotenv(os.path.join(BACKEND_PATH, ".env"))
 
-# A partir de aquí ya puedes importar db, crud, models, etc.
+# 3) Importa la sesión y tus funciones CRUD / vistas
 from db import get_session
-from crud import list_estudiantes, create_estudiante
+from crud import list_course_enrollments, list_course_teachers
+
 import streamlit as st
-from datetime import date
+import pandas as pd
 
+# —––– Interfaz Streamlit –––—  
+st.set_page_config(page_title="Vistas Universidad", layout="wide")
+st.title("📊 Vistas de la plataforma de cursos")
 
-# —––– INTERFAZ –––—  
-st.title("👩‍🎓 Plataforma de Cursos – Test Conexión Backend")
-
-# Botón para crear un estudiante de prueba
-if st.button("Crear estudiante de prueba"):
-    db = get_session()
-    nuevo = create_estudiante(db, "Frontend Test", "frontend@test.edu", date(2000,1,1))
-    st.success(f"🎉 Creado: {nuevo}")
-
-# Listado de estudiantes
-st.header("Lista de estudiantes actuales")
+# Crea una sesión a la base de datos
 db = get_session()
-estudiantes = list_estudiantes(db, limit=10)
-# Muestra como DataFrame o como lista
-st.write(estudiantes)  # gracias al __repr__ verás cada objeto con sus campos
-# O, si prefieres tabla:
-# import pandas as pd
-# df = pd.DataFrame([{"id": e.id, "nombre": e.nombre, "email": e.email} for e in estudiantes])
-# st.dataframe(df)
+
+# 4) Mostrar vista de inscripciones
+st.header("Vista: Cursos e Inscripciones")
+enrolls = list_course_enrollments(db)
+if enrolls:
+    df_enrolls = pd.DataFrame(enrolls, columns=[
+        "estudiante_id", "estudiante_nombre", "curso_id", "curso_nombre", "estado"
+    ])
+    st.dataframe(df_enrolls, use_container_width=True)
+else:
+    st.write("No hay inscripciones para mostrar.")
+
+# 5) Mostrar vista de asignaciones (cursos y profesores)
+st.header("Vista: Cursos y Profesores Asignados")
+teachers = list_course_teachers(db)
+if teachers:
+    df_teachers = pd.DataFrame(teachers, columns=[
+        "curso_id", "curso_nombre", "profesor_id", "profesor_nombre"
+    ])
+    st.dataframe(df_teachers, use_container_width=True)
+else:
+    st.write("No hay asignaciones para mostrar.")

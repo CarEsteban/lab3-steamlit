@@ -1,3 +1,4 @@
+from sqlalchemy import text
 from sqlalchemy.orm import Session
 from models import (
     Estudiante,
@@ -164,3 +165,24 @@ def delete_asignacion(db: Session, asign_id: int) -> bool:
     db.delete(asign)
     db.commit()
     return True
+
+
+# ---------- Vistas CRUD ----------
+
+def list_course_enrollments(db: Session) -> list[tuple]:
+    """
+    Devuelve todas las filas de la vista v_course_enrollment
+    como lista de tuplas.
+    """
+    stmt = text("SELECT * FROM v_course_enrollment")
+    result = db.execute(stmt)
+    return result.fetchall()
+
+def list_course_teachers(db: Session) -> list[tuple]:
+    """
+    Devuelve todas las filas de la vista v_course_teachers
+    como lista de tuplas.
+    """
+    stmt = text("SELECT * FROM v_course_teachers")
+    result = db.execute(stmt)
+    return result.fetchall()
