@@ -1,5 +1,5 @@
-from sqlalchemy import text
-from sqlalchemy.orm import Session
+from sqlalchemy import text # type: ignore
+from sqlalchemy.orm import Session # type: ignore
 from models import (
     Estudiante,
     Curso,
