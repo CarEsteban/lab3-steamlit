@@ -95,12 +95,4 @@ Para sincronizar tus tablas con el ORM usa el siguiente script:
 python correction_tables.py
 ```
 
-## 5. Ejecución con frontend
-
-Para que puedas usar el frontend, desde la carpeta raiz del proyecto ejecuta este comando
-
-``` bash
-export PYTHONPATH="$PWD/backend:$PYTHONPATH"
-```
-
-Y con eso ya puede funcionar tu frontend
+Luego vete a la documentación del frontend [text](https://github.com/CarEsteban/lab3-steamlit/tree/main/frontend) para saber como iniciar el frontend
