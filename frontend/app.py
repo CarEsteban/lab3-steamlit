@@ -7,15 +7,15 @@ if BACKEND_PATH not in sys.path:
     sys.path.insert(0, BACKEND_PATH)
 
 # 2) Carga variables de entorno desde el .env del backend
-from dotenv import load_dotenv
+from dotenv import load_dotenv # type: ignore
 load_dotenv(os.path.join(BACKEND_PATH, ".env"))
 
 # 3) Importa la sesión y tus funciones CRUD / vistas
 from db import get_session
 from crud import list_course_enrollments, list_course_teachers
 
-import streamlit as st
-import pandas as pd
+import streamlit as st # type: ignore
+import pandas as pd # type: ignore
 
 # —––– Interfaz Streamlit –––—  
 st.set_page_config(page_title="Vistas Universidad", layout="wide")
