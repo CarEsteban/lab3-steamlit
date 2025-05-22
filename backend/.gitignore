@@ -1,0 +1,24 @@
+# Entorno virtual
+venv/
+.venv/
+
+# Archivos de Python compilados
+__pycache__/
+*.py[cod]
+
+# Variables de entorno
+.env
+
+# SQL scripts (opcional: si los llevas en bd/, ignóralos aquí)
+# bd/
+
+# Logs y bases de datos locales
+*.log
+*.sqlite3
+
+# IDEs / editores
+.vscode/
+.idea/
+
+# MacOS
+.DS_Store

@@ -1,0 +1,28 @@
+# Entorno virtual
+venv/
+.venv/
+
+# Archivos de Python compilados
+__pycache__/
+*.py[cod]
+
+# Variables de entorno
+.env
+
+# Streamlit
+.streamlit/
+
+# Node modules (si llegas a usar JS/CSS)
+node_modules/
+
+# Build / cache
+*.lock
+*.cache
+*.log
+
+# IDEs / editores
+.vscode/
+.idea/
+
+# MacOS
+.DS_Store
