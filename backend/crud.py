@@ -99,6 +99,8 @@ def update_profesor(db: Session, profesor_id: int, **kwargs) -> Profesor | None:
     return prof
 
 def delete_profesor(db: Session, profesor_id: int) -> bool:
+    # Elimina asignaciones relacionadas
+    db.query(Asignacion).filter(Asignacion.profesor_id == profesor_id).delete()
     prof = db.query(Profesor).get(profesor_id)
     if not prof:
         return False

@@ -19,7 +19,7 @@ import pandas as pd # type: ignore
 
 # —––– Interfaz Streamlit –––—  
 st.set_page_config(page_title="Vistas Universidad", layout="wide")
-st.title("📊 Vistas de la plataforma de cursos")
+st.title("📊 Modificiones de Estudiantes y Profesores")
 
 # Crea una sesión a la base de datos
 db = get_session()
@@ -128,6 +128,78 @@ with st.expander("🗑️ Eliminar estudiante", expanded=False):
         try:
             delete_estudiante(db, student_selected.id)
             st.success(f"Estudiante {student_selected.nombre} eliminado exitosamente")
+            
+        except Exception as e:
+            st.error(f"Error al eliminar: {e}")
+
+# 10) Mostrar Profesores
+with st.expander("👨‍🏫 Ver tabla de profesores", expanded=False):
+    st.subheader("Listado de profesores")
+    teachers = list_profesores(db)
+    df_teachers = pd.DataFrame([
+        {
+            "ID": p.id,
+            "Nombre": p.nombre,
+            "Email": p.email
+        }
+        for p in teachers
+    ])
+    st.dataframe(df_teachers, use_container_width=True)
+
+# 11) Crear Profesor
+with st.expander("➕ Agregar profesor", expanded=False):
+    st.subheader("Agregar nuevo profesor")
+    with st.form("Crear profesor"):
+        col1, col2 = st.columns(2)
+        with col1:
+            name_teach = st.text_input("Nombre del profesor")
+        with col2:
+            email_teach = st.text_input("Email del profesor")
+        submitted_prof = st.form_submit_button("Crear Profesor")
+        if submitted_prof:
+            if name_teach and email_teach:
+                try:
+                    create_profesor(db, name_teach, email_teach)
+                    st.success(f"Profesor {name_teach} creado exitosamente")
+                    
+                except Exception as e:
+                    st.error(f"Error al crear al profesor: {e}")
+            else:
+                st.warning("Por favor, llenar todos los campos.")
+
+# 12) Actualizar Profesor
+with st.expander("✏️ Actualizar profesor", expanded=False):
+    st.subheader("Editar datos de un profesor")
+    teachers = list_profesores(db)
+    teach_option = {f"{p.id} - {p.nombre}": p for p in teachers}
+    selected_teach = st.selectbox("Selecciona a un profesor", list(teach_option), key="update_prof_select")
+    prof_selected = teach_option[selected_teach]
+    with st.form("Actualizar profesor form"):
+        col1, col2 = st.columns(2)
+        with col1:
+            new_prof_name = st.text_input("Nuevo nombre", value=prof_selected.nombre)
+        with col2:
+            new_prof_email = st.text_input("Nuevo correo", value=prof_selected.email)
+        update_prof_submitted = st.form_submit_button("Actualizar profesor")
+        if update_prof_submitted:
+            try:
+                update_profesor(db, prof_selected.id, nombre=new_prof_name, email=new_prof_email)
+                st.success(f"Profesor {new_prof_name} actualizado exitosamente")
+                
+            except Exception as e:
+                st.error(f"Error al actualizar: {e}")
+
+# 13) Eliminar Profesor
+with st.expander("🗑️ Eliminar profesor", expanded=False):
+    st.subheader("Eliminar un profesor")
+    profesores = list_profesores(db)
+    teach_option = {f"{p.id} - {p.nombre}": p for p in profesores}
+    selected_teach = st.selectbox("Selecciona a un profesor a eliminar", list(teach_option), key="delete_prof_select")
+    prof_selected = teach_option[selected_teach]
+    if st.button("Eliminar profesor"):
+        try:
+            delete_profesor(db, prof_selected.id)
+            st.success(f"Profesor {prof_selected.nombre} eliminado exitosamente")
             
         except Exception as e:
             st.error(f"Error al eliminar: {e}")
